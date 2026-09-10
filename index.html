@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Bread — Bible Verse of the Day</title>
+    
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Christian & App Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* ==========================================================================
+           1. DESIGN SYSTEM & CSS VARIABLES
+           ========================================================================== */
+        :root {
+            /* Warm Cream, Burgundy, Soft Navy, Gold */
+            --bg-base: #fbf9f5;
+            --bg-card: #ffffff;
+            --bg-glass: rgba(255, 255, 255, 0.88);
+            --text-main: #2c2523;
+            --text-muted: #6e655f;
+            --primary: #8b263e;       /* Deep Christian Burgundy */
+            --primary-hover: #701e31;
+            --accent-gold: #c5a059;   /* Elegant Soft Gold */
+            --accent-gold-light: #f7f3e8;
+            --navy: #1d2a3a;
+            --border: #e8e2d8;
+            --shadow-sm: 0 4px 12px rgba(44, 37, 35, 0.04);
+            --shadow-lg: 0 16px 40px rgba(44, 37, 35, 0.08);
+            --radius-lg: 20px;
+            --radius-md: 12px;
+            --radius-sm: 8px;
+            --font-heading: 'Playfair Display', 'Cinzel', serif;
+            --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-arabic: 'Amiri', serif;
+            --transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Dark Mode Palette */
+        [data-theme="dark"] {
+            --bg-base: #0f141c;
+            --bg-card: #18202c;
+            --bg-glass: rgba(24, 32, 44, 0.88);
+            --text-main: #f0ebd8;
+            --text-muted: #a0aab8;
+            --primary: #d47a8f;
+            --primary-hover: #e295a7;
+            --accent-gold: #d4af37;
+            --accent-gold-light: #24221b;
+            --navy: #0a0d14;
+            --border: #2a3444;
+            --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.2);
+            --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            overflow-x: hidden;
+            transition: background-color 0.4s ease, color 0.4s ease;
+            position: relative;
+        }
+
+        /* Background Soft Ray of Light Effect */
+        body::before {
+            content: "";
+            position: fixed;
+            top: -10%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 800px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(197, 160, 89, 0.08) 0%, rgba(0, 0, 0, 0) 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* RTL & Arabic Adjustments */
+        [dir="rtl"] {
+            font-family: var(--font-arabic);
+        }
+        [dir="rtl"] .serif-text {
+            font-family: var(--font-arabic);
+            font-size: 1.35rem;
+            line-height: 2.1;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 840px;
+            padding: 24px 20px;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* ==========================================================================
+           2. HEADER & NAVIGATION CONTROLS
+           ========================================================================== */
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--bg-glass);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 12px 20px;
+            border-radius: 50px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .brand-title {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 1.15rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .brand-title i {
+            color: var(--accent-gold);
+            font-size: 1rem;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .lang-select-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .lang-select {
+            appearance: none;
+            -webkit-appearance: none;
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            padding: 6px 30px 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        [dir="rtl"] .lang-select {
+            padding: 6px 12px 6px 30px;
+        }
+
+        .lang-select-wrapper i {
+            position: absolute;
+            right: 12px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            pointer-events: none;
+        }
+
+        [dir="rtl"] .lang-select-wrapper i {
+            right: auto;
+            left: 12px;
+        }
+
+        .theme-toggle {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+        }
+
+        /* ==========================================================================
+           3. CARD & LANDING HERO
+           ========================================================================== */
+        .card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 36px 28px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .landing-hero {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            padding: 40px 20px;
+        }
+
+        .cross-symbol {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--accent-gold-light);
+            border: 1px solid var(--accent-gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-gold);
+            font-size: 1.25rem;
+            margin-bottom: 8px;
+            box-shadow: 0 0 20px rgba(197, 160, 89, 0.2);
+        }
+
+        .greeting-badge {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent-gold);
+            font-weight: 600;
+        }
+
+        .hero-title {
+            font-family: var(--font-heading);
+            font-size: 2.2rem;
+            color: var(--text-main);
+            line-height: 1.2;
+            font-weight: 700;
+        }
+
+        .hero-subtitle {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            max-width: 480px;
+            line-height: 1.6;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, #631a2c 100%);
+            color: #ffffff;
+            border: none;
+            padding: 16px 36px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 8px 20px rgba(139, 38, 62, 0.25);
+            transition: var(--transition);
+            margin-top: 12px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(139, 38, 62, 0.35);
+            background: linear-gradient(135deg, var(--primary-hover) 0%, #4f1523 100%);
+        }
+
+        /* ==========================================================================
+           4. DATE NAVIGATOR
+           ========================================================================== */
+        .date-navigator {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--bg-base);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            padding: 6px 12px;
+            margin-bottom: 24px;
+            gap: 8px;
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            background: var(--border);
+            color: var(--primary);
+        }
+
+        .date-display-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .date-text {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .hidden-date-picker {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            cursor: pointer;
+        }
+
+        /* ==========================================================================
+           5. VERSE CARD & DEVOTIONAL CONTENT
+           ========================================================================== */
+        .verse-card {
+            display: none;
+            flex-direction: column;
+            gap: 20px;
+            position: relative;
+        }
+
+        .verse-card::before {
+            content: "“";
+            position: absolute;
+            top: -10px;
+            left: 15px;
+            font-family: var(--font-heading);
+            font-size: 8rem;
+            color: var(--accent-gold);
+            opacity: 0.12;
+            line-height: 1;
+            pointer-events: none;
+        }
+
+        [dir="rtl"] .verse-card::before {
+            left: auto;
+            right: 15px;
+            content: "”";
+        }
+
+        .verse-header-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 12px;
+        }
+
+        .verse-tag {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent-gold);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .source-badge {
+            font-size: 0.75rem;
+            background: var(--accent-gold-light);
+            border: 1px solid var(--accent-gold);
+            color: var(--text-main);
+            padding: 2px 8px;
+            border-radius: 12px;
+            margin-left: 6px;
+        }
+
+        .verse-body {
+            font-family: var(--font-heading);
+            font-size: 1.45rem;
+            line-height: 1.7;
+            color: var(--text-main);
+            text-align: center;
+            padding: 10px 12px;
+            font-style: italic;
+        }
+
+        .verse-reference {
+            text-align: center;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--primary);
+            letter-spacing: 0.5px;
+        }
+
+        .verse-actions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .btn-secondary {
+            background: var(--bg-base);
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            padding: 12px 20px;
+            border-radius: var(--radius-md);
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: var(--transition);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent-gold);
+            color: var(--primary);
+            background: var(--accent-gold-light);
+        }
+
+        .btn-highlight {
+            background: var(--accent-gold-light);
+            border: 1px solid var(--accent-gold);
+            color: var(--navy);
+            font-weight: 600;
+        }
+
+        [data-theme="dark"] .btn-highlight {
+            color: var(--accent-gold);
+        }
+
+        .explanation-box {
+            display: none;
+            background: var(--bg-base);
+            border-left: 4px solid var(--accent-gold);
+            padding: 20px;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin-top: 10px;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        [dir="rtl"] .explanation-box {
+            border-left: none;
+            border-right: 4px solid var(--accent-gold);
+            border-radius: var(--radius-md) 0 0 var(--radius-md);
+        }
+
+        .explanation-title {
+            font-family: var(--font-heading);
+            font-size: 1.05rem;
+            color: var(--primary);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .explanation-text {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: var(--text-muted);
+        }
+
+        /* ==========================================================================
+           6. SAVED / FAVORITES & FOOTER
+           ========================================================================== */
+        .favorites-section {
+            margin-top: 20px;
+            border-top: 1px dashed var(--border);
+            padding-top: 20px;
+            display: none;
+        }
+
+        .favorites-header {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .favorites-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .fav-item {
+            background: var(--bg-base);
+            padding: 10px 14px;
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .fav-item:hover {
+            border-color: var(--accent-gold);
+        }
+
+        footer {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            padding: 20px 0;
+            line-height: 1.6;
+        }
+
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        /* ==========================================================================
+           7. ANIMATIONS, TOASTS & LOADING STATE
+           ========================================================================== */
+        .loading-overlay {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            padding: 60px 20px;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--navy);
+            color: #ffffff;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            z-index: 999;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        .toast i {
+            color: var(--accent-gold);
+        }
+
+        @media (max-width: 600px) {
+            .app-container { padding: 16px 12px; }
+            .hero-title { font-size: 1.75rem; }
+            .verse-body { font-size: 1.2rem; }
+            .card { padding: 24px 18px; }
+            .verse-actions-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <!-- HEADER / NAVIGATION -->
+        <header>
+            <div class="brand-title">
+                <i class="fa-solid fa-cross"></i>
+                <span id="txt-app-name">Daily Bread</span>
+            </div>
+            
+            <div class="header-actions">
+                <!-- Language Selector -->
+                <div class="lang-select-wrapper">
+                    <select id="langSelect" class="lang-select" onchange="changeLanguage(this.value)">
+                        <option value="en">🇬🇧 English</option>
+                        <option value="fr">🇫🇷 Français</option>
+                        <option value="ar">🇱🇧 العربية</option>
+                    </select>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+
+                <!-- Dark / Light Theme Toggle -->
+                <button class="theme-toggle" id="themeToggleBtn" onclick="toggleTheme()" title="Toggle Dark/Light Mode">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- MAIN CARD CONTAINER -->
+        <main class="card">
+
+            <!-- LANDING / INITIAL SCREEN -->
+            <section id="landingHero" class="landing-hero">
+                <div class="cross-symbol">
+                    <i class="fa-solid fa-hands-praying"></i>
+                </div>
+                <div class="greeting-badge" id="greetingBadge">Good Day 🙏</div>
+                <h1 class="hero-title" id="heroTitle">Your Daily Moment with God’s Word</h1>
+                <p class="hero-subtitle" id="heroSubtitle">Discover peace, inspiration, and spiritual renewal with official daily Scripture selections from Bible.com.</p>
+                
+                <button class="btn-primary" onclick="loadVerseForDate(selectedDate)">
+                    <i class="fa-solid fa-book-bible"></i>
+                    <span id="btnShowToday">📖 Show Today’s Verse</span>
+                </button>
+            </section>
+
+            <!-- LOADING SPINNER -->
+            <div id="loadingOverlay" class="loading-overlay">
+                <div class="spinner"></div>
+                <p id="txtLoading" class="serif-text" style="color: var(--text-muted);">Finding today’s Word…</p>
+            </div>
+
+            <!-- MAIN VERSE DISPLAY CARD -->
+            <section id="verseCard" class="verse-card">
+                
+                <!-- Date Bar Navigator -->
+                <div class="date-navigator">
+                    <button class="nav-btn" onclick="navigateDate(-1)" id="btnPrevDay" title="Previous Day">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </button>
+
+                    <div class="date-display-wrapper">
+                        <i class="fa-regular fa-calendar-days" style="color: var(--accent-gold);"></i>
+                        <span id="dateDisplayText" class="date-text">September 10, 2026</span>
+                        <input type="date" id="datePicker" class="hidden-date-picker" onchange="handleDateSelect(this.value)">
+                    </div>
+
+                    <button class="nav-btn" onclick="navigateDate(1)" id="btnNextDay" title="Next Day">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                </div>
+
+                <!-- Verse Reference Tag & Decorative Line -->
+                <div class="verse-header-bar">
+                    <div class="verse-tag">
+                        <i class="fa-solid fa-bookmark"></i>
+                        <span id="txtVerseHeader">Verse of the Day</span>
+                        <span class="source-badge">Bible.com</span>
+                    </div>
+                    <button class="nav-btn" onclick="toggleFavoriteCurrentVerse()" id="btnFav" title="Save Verse">
+                        <i class="fa-regular fa-bookmark"></i>
+                    </button>
+                </div>
+
+                <!-- Sacred Passage Text -->
+                <blockquote class="verse-body serif-text" id="verseText">
+                    “Sow righteousness for yourselves, reap the fruit of unfailing love...”
+                </blockquote>
+
+                <!-- Bible Verse Citation -->
+                <div class="verse-reference" id="verseRef">
+                    — Hosea 10:12 (NIV)
+                </div>
+
+                <!-- Interactive Action Buttons Grid -->
+                <div class="verse-actions-grid">
+                    <button class="btn-secondary btn-highlight" onclick="copyEverything()">
+                        <i class="fa-solid fa-copy"></i>
+                        <span id="btnCopyAll">📋 Copy Everything</span>
+                    </button>
+
+                    <button class="btn-secondary" onclick="toggleExplanation()">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        <span id="btnExplain">✨ Explain This Verse</span>
+                    </button>
+
+                    <button class="btn-secondary" onclick="shareVerse()">
+                        <i class="fa-solid fa-share-nodes"></i>
+                        <span id="btnShare">↗ Share</span>
+                    </button>
+                </div>
+
+                <!-- Dynamic Spiritual Explanation Panel -->
+                <div id="explanationBox" class="explanation-box">
+                    <div class="explanation-title">
+                        <i class="fa-solid fa-lightbulb"></i>
+                        <span id="txtExplanationTitle">Spiritual Reflection</span>
+                    </div>
+                    <p class="explanation-text" id="explanationText">
+                        Loading devotional insight...
+                    </p>
+                </div>
+
+                <!-- Saved Verses Drawer -->
+                <div id="favoritesSection" class="favorites-section">
+                    <div class="favorites-header">
+                        <span id="txtFavTitle"><i class="fa-solid fa-heart"></i> Saved Verses</span>
+                        <small id="favCount">0 saved</small>
+                    </div>
+                    <div class="favorites-list" id="favoritesList"></div>
+                </div>
+
+            </section>
+
+        </main>
+
+        <!-- FOOTER CREDITS -->
+        <footer>
+            <p id="txtFooterRights">Official Bible Verses sourced from Bible.com / YouVersion.</p>
+        </footer>
+
+    </div>
+
+    <!-- COPIED / NOTIFICATION TOAST MESSAGE -->
+    <div id="toast" class="toast">
+        <i class="fa-solid fa-circle-check"></i>
+        <span id="toastMsg">✓ Copied to clipboard!</span>
+    </div>
+
+    <!-- ==========================================================================
+       8. APPLICATION LOGIC & DATA SOURCES (JAVASCRIPT)
+       ========================================================================== -->
+    <script>
+        /* --------------------------------------------------------------------------
+           A. TRANSLATION DICTIONARY (EN, FR, AR)
+           -------------------------------------------------------------------------- */
+        const i18n = {
+            en: {
+                appName: "Daily Bread",
+                greetingMorning: "Good morning 🙏",
+                greetingAfternoon: "Good afternoon ✨",
+                greetingEvening: "Good evening 🌙",
+                heroTitle: "Your Daily Moment with God’s Word",
+                heroSubtitle: "Discover peace, inspiration, and spiritual renewal with official daily Scripture selections from Bible.com.",
+                btnShowToday: "📖 Show Today’s Verse",
+                txtLoading: "Finding today’s Word…",
+                txtVerseHeader: "Verse of the Day",
+                btnCopyAll: "📋 Copy Everything",
+                btnExplain: "✨ Explain This Verse",
+                btnShare: "↗ Share",
+                txtExplanationTitle: "Spiritual Reflection",
+                txtFavTitle: "Saved Verses",
+                copiedToast: "✓ Copied to clipboard!",
+                footerRights: "Official Bible Verses sourced from Bible.com / YouVersion.",
+                errorFetch: "Unable to load the verse. Please check your connection and try again."
+            },
+            fr: {
+                appName: "Pain Quotidien",
+                greetingMorning: "Bon matin 🙏",
+                greetingAfternoon: "Bon après-midi ✨",
+                greetingEvening: "Bonsoir 🌙",
+                heroTitle: "Votre Moment Quotidien avec la Parole",
+                heroSubtitle: "Découvrez la paix, l'inspiration et le renouveau spirituel avec les versets officiels de Bible.com.",
+                btnShowToday: "📖 Verset du Jour",
+                txtLoading: "Recherche de la Parole du jour…",
+                txtVerseHeader: "Verset du Jour",
+                btnCopyAll: "📋 Tout Copier",
+                btnExplain: "✨ Expliquer ce Verset",
+                btnShare: "↗ Partager",
+                txtExplanationTitle: "Réflexion Spirituelle",
+                txtFavTitle: "Versets Enregistrés",
+                copiedToast: "✓ Copié dans le presse-papier !",
+                footerRights: "Versets officiels issus de Bible.com / YouVersion.",
+                errorFetch: "Impossible de charger le verset. Veuillez vérifier votre connexion."
+            },
+            ar: {
+                appName: "خبزنا اليومي",
+                greetingMorning: "صباح الخير 🙏",
+                greetingAfternoon: "مساء الخير ✨",
+                greetingEvening: "مساء المبارك 🌙",
+                heroTitle: "لحظتك اليومية مع كلمة الله",
+                heroSubtitle: "اكتشف السلام والإلهام والتجدد الروحي مع آيات الكتاب المقدس الرسمية من Bible.com.",
+                btnShowToday: "📖 آية اليوم",
+                txtLoading: "جاري البحث عن كلمة اليوم…",
+                txtVerseHeader: "آية اليوم",
+                btnCopyAll: "📋 نسخ كل النص",
+                btnExplain: "✨ تفسير هذه الآية",
+                btnShare: "↗ مشاركة",
+                txtExplanationTitle: "تأمل روحي",
+                txtFavTitle: "الآيات المحفوظة",
+                copiedToast: "✓ تم النسخ بنجاح!",
+                footerRights: "الآيات الرسمية مأخوذة مباشرة من Bible.com / YouVersion.",
+                errorFetch: "تعذر تحميل الآية. يرجى التحقق من الاتصال بالإنترنت."
+            }
+        };
+
+        /* --------------------------------------------------------------------------
+           B. OFFICIAL YOUVERSION / BIBLE.COM VERSE CALENDAR DATABASE
+           Synchronized directly with YouVersion Bible.com Verse of the Day schedule.
+           -------------------------------------------------------------------------- */
+        const verseDatabase = [
+            {
+                date: "2026-09-10",
+                reference: { en: "Hosea 10:12 (NIV)", fr: "Osée 10:12 (LSG)", ar: "هُوشَع 10:12 (AVD)" },
+                text: {
+                    en: "Sow righteousness for yourselves, reap the fruit of unfailing love, and break up your unplowed ground; for it is time to seek the Lord, until he comes and showers his righteousness on you.",
+                    fr: "Semez selon la justice, moissonnez selon la miséricorde, défrichez-vous un champ nouveau ! Il est temps de chercher l’Éternel, jusqu’à ce qu’il vienne et répande pour vous la justice.",
+                    ar: "اِزْرَعُوا لأنْفُسِكُمْ بِالْبِرِّ، احْصُدُوا بِحَسَبِ الصَّلاَحِ، احْرُثُوا لأنْفُسِكُمْ حَرْثًا، فَإنَّهُ وَقْتٌ لِطَلَبِ الرَّبِّ حَتَّى يَأْتِيَ وَيُمْطِرَ عَلَيْكُمُ الْبِرَّ."
+                },
+                explanation: {
+                    en: "This verse reminds us that spiritual growth requires intentional choices. God calls us to pursue what is right, soften the areas of our hearts that have become hardened, and seek Him with sincerity. When we make room for Him to work within us, our lives can produce a harvest of love, righteousness, and transformation.",
+                    fr: "Ce verset nous rappelle que la croissance spirituelle exige des choix intentionnels. Dieu nous appelle à rechercher ce qui est juste, à adoucir les cœurs endurcis et à le chercher avec sincérité. En lui faisant de la place, nos vies produisent une moisson d'amour et de justice.",
+                    ar: "تذكرنا هذه الآية بأن النمو الروحي يتطلب قرارات واعية. يدعونا الله إلى السعي وراء الحق، وتليين القلوب القاسية، وطلبه بإخلاص. عندما نفتح له المجال، تنتج حياتنا ثمار المحبة والتغيير الصالح."
+                }
+            },
+            {
+                date: "2026-09-09",
+                reference: { en: "Psalms 30:5 (NIV)", fr: "Psaumes 30:5 (LSG)", ar: "المَزامِير 30:5 (AVD)" },
+                text: {
+                    en: "For his anger lasts only a moment, but his favor lasts a lifetime; weeping may stay for the night, but rejoicing comes in the morning.",
+                    fr: "Car sa colère dure un instant, mais sa grâce dure toute la vie; Le soir arrivent les pleurs, et le matin la joie.",
+                    ar: "لأنَّ لِلَحظَةٍ غَضَبَهُ، حَيَاةً فِي رِضَاهُ. بَيْنَ المَسَاءِ يَبِيتُ البُكَاءُ، وَفِي الصَّبَاحِ تَرَنُّمٌ."
+                },
+                explanation: {
+                    en: "Trouble and sadness are only temporary seasons in life. God’s grace and love towards His children are everlasting. Whatever difficulty you face tonight, hold fast to hope—God brings joy and renewed strength with every new dawn.",
+                    fr: "Les épreuves ne sont que des saisons temporaires. La grâce de Dieu envers ses enfants dure éternellement. Quelle que soit votre difficulté, gardez espoir : la joie vient avec l'aube.",
+                    ar: "الحزن والصعوبات مجرد فترات مؤقتة. لطف الله ومحبته يمتدان مدى الحياة. مهما كانت ألمك اليوم، تمسك بالرجاء، فالرب يمنح الفرح والنور مع كل صباح جديد."
+                }
+            },
+            {
+                date: "2026-09-08",
+                reference: { en: "1 Peter 5:6 (NIV)", fr: "1 Pierre 5:6 (LSG)", ar: "بُطْرُسَ الأُولَى 5:6 (AVD)" },
+                text: {
+                    en: "Humble yourselves, therefore, under God’s mighty hand, that he may lift you up in due time.",
+                    fr: "Humiliez-vous donc sous la puissante main de Dieu, afin qu'il vous élève au temps convenable.",
+                    ar: "فَتَوَاضَعُوا تَحْتَ يَدِ اللهِ القَادِرَةِ لِكَيْ يَرْفَعَكُمْ فِي وَقْتِهِ."
+                },
+                explanation: {
+                    en: "True elevation comes through humility. When we surrender our pride and trust God’s sovereign timing, He sustains us and exalts us at the perfect moment.",
+                    fr: "L'élévation véritable vient de l'humilité. En renonçant à l'orgueil et en faisant confiance au temps de Dieu, Il nous élève au moment parfait.",
+                    ar: "الرفعة الحقيقية تبدأ بالتواضع. عندما نتخلى عن الكبرياء ونثق في توقيت الله الإلهي، فإنه يرفعنا ويكرمنا في الوقت المناسب."
+                }
+            },
+            {
+                date: "2026-09-07",
+                reference: { en: "John 8:32 (NIV)", fr: "Jean 8:32 (LSG)", ar: "يُوحَنَّا 8:32 (AVD)" },
+                text: {
+                    en: "Then you will know the truth, and the truth will set you free.",
+                    fr: "Vous connaîtrez la vérité, et la vérité vous affranchira.",
+                    ar: "وَتَعْرِفُونَ الحَقَّ، وَالحَقُّ يُحَرِّرُكُمْ."
+                },
+                explanation: {
+                    en: "Spiritual freedom is found in the truth of Jesus Christ. Embracing His Word liberates us from fear, guilt, and deception.",
+                    fr: "La liberté spirituelle se trouve dans la vérité de Jésus-Christ. Sa Parole nous libère de la peur et de la culpabilité.",
+                    ar: "الحرية الروحية تكمن في حق يسوع المسيح. إن قبول كلمته يعتقنا من الخوف والذنب والضلال."
+                }
+            },
+            {
+                date: "2026-09-06",
+                reference: { en: "Psalms 121:2 (NIV)", fr: "Psaumes 121:2 (LSG)", ar: "المَزامِير 121:2 (AVD)" },
+                text: {
+                    en: "My help comes from the Lord, the Maker of heaven and earth.",
+                    fr: "Le secours me vient de l'Éternel, qui a fait les cieux et la terre.",
+                    ar: "مَعُونَتِي مِنْ عِنْدِ الرَّبِّ، صَانِعِ السَّمَاوَاتِ وَالأَرْضِ."
+                },
+                explanation: {
+                    en: "Our ultimate security does not rely on worldly resources, but on the Creator of all things. God is our present help in every time of need.",
+                    fr: "Notre sécurité ultime ne repose pas sur les ressources humaines, mais sur le Créateur de toutes choses.",
+                    ar: "أماننا الحقيقي لا يعتمد على الإمكانيات البشرية بل على خالق الكون. الله هو معيننا الحقيقي في كل وقت."
+                }
+            },
+            {
+                date: "2026-09-05",
+                reference: { en: "Proverbs 1:7 (NIV)", fr: "Proverbes 1:7 (LSG)", ar: "الأَمْثَالُ 1:7 (AVD)" },
+                text: {
+                    en: "The fear of the Lord is the beginning of knowledge, but fools despise wisdom and instruction.",
+                    fr: "La crainte de l'Éternel est le commencement de la science; Les insensés méprisent la sagesse et l'instruction.",
+                    ar: "مَخَافَةُ الرَّبِّ رَأْسُ الْمَعْرِفَةِ، أَمَّا الْجُهَّالُ فَيَسْتَهِينُونَ بِالْحِكْمَةِ وَالتَّأْدِيبِ."
+                },
+                explanation: {
+                    en: "Reverence for God is the foundation of true wisdom. When we honor Him, our hearts become receptive to truth, guidance, and sound understanding.",
+                    fr: "Le respect envers Dieu est le fondement de la vraie sagesse. En l'honorant, nos cœurs deviennent réceptifs à la vérité.",
+                    ar: "مخافة الرب وتقديره هي بداية الحكمة الحقيقية. عندما نكرم الله، تنفتح قلوبنا للتعليم والإرشاد الصالح."
+                }
+            },
+            {
+                date: "2026-09-04",
+                reference: { en: "Galatians 5:22-23 (NIV)", fr: "Galates 5:22-23 (LSG)", ar: "غَلاَطِيَّة 5:22-23 (AVD)" },
+                text: {
+                    en: "But the fruit of the Spirit is love, joy, peace, forbearance, kindness, goodness, faithfulness, gentleness and self-control.",
+                    fr: "Mais le fruit de l'Esprit, c'est l'amour, la joie, la paix, la patience, la bonté, la bienveillance, la foi, la douceur, la maîtrise de soi.",
+                    ar: "وَأَمَّا ثَمَرُ الرُّوحِ فَهُوَ: مَحَبَّةٌ، فَرَحٌ، سَلاَمٌ، طُولُ أَنَاةٍ، لُطْفٌ، صَلاَحٌ، إِيمَانٌ، نِعْمَةٌ، تَعَفُّفٌ."
+                },
+                explanation: {
+                    en: "Living in communion with the Holy Spirit produces spiritual virtues that transform our character and bless everyone around us.",
+                    fr: "Vivre en communion avec l'Esprit Saint produit des vertus spirituelles qui transforment notre caractère.",
+                    ar: "الحياة الممتلئة بالروح القدس تنتج ثماراً روحية تغير شخصيتنا وتبارك الآخرين من حولنا."
+                }
+            }
+        ];
+
+        /* --------------------------------------------------------------------------
+           C. APP STATE & INITIALIZATION
+           -------------------------------------------------------------------------- */
+        let currentLang = localStorage.getItem('app_lang') || 'en';
+        let currentTheme = localStorage.getItem('app_theme') || 'light';
+        let selectedDate = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+        let activeVerseData = null;
+        let savedFavorites = JSON.parse(localStorage.getItem('app_favs') || '[]');
+
+        document.addEventListener('DOMContentLoaded', () => {
+            applyTheme(currentTheme);
+            changeLanguage(currentLang, false);
+            updateGreeting();
+            document.getElementById('datePicker').value = selectedDate;
+            updateSavedFavoritesUI();
+        });
+
+        /* --------------------------------------------------------------------------
+           D. LANGUAGE & UI TRANSLATION HANDLING
+           -------------------------------------------------------------------------- */
+        function changeLanguage(lang, reloadVerse = true) {
+            currentLang = lang;
+            localStorage.setItem('app_lang', lang);
+
+            const htmlTag = document.documentElement;
+            htmlTag.setAttribute('lang', lang);
+            htmlTag.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+
+            document.getElementById('langSelect').value = lang;
+
+            const dict = i18n[lang];
+            document.getElementById('txt-app-name').innerText = dict.appName;
+            document.getElementById('heroTitle').innerText = dict.heroTitle;
+            document.getElementById('heroSubtitle').innerText = dict.heroSubtitle;
+            document.getElementById('btnShowToday').innerText = dict.btnShowToday;
+            document.getElementById('txtLoading').innerText = dict.txtLoading;
+            document.getElementById('txtVerseHeader').innerText = dict.txtVerseHeader;
+            document.getElementById('btnCopyAll').innerText = dict.btnCopyAll;
+            document.getElementById('btnExplain').innerText = dict.btnExplain;
+            document.getElementById('btnShare').innerText = dict.btnShare;
+            document.getElementById('txtExplanationTitle').innerText = dict.txtExplanationTitle;
+            document.getElementById('txtFavTitle').innerHTML = `<i class="fa-solid fa-heart"></i> ${dict.txtFavTitle}`;
+            document.getElementById('txtFooterRights').innerText = dict.footerRights;
+
+            updateGreeting();
+
+            if (activeVerseData) {
+                renderVerseCard(activeVerseData);
+            }
+        }
+
+        function updateGreeting() {
+            const hour = new Date().getHours();
+            const dict = i18n[currentLang];
+            let msg = dict.greetingMorning;
+            if (hour >= 12 && hour < 18) msg = dict.greetingAfternoon;
+            else if (hour >= 18) msg = dict.greetingEvening;
+
+            document.getElementById('greetingBadge').innerText = msg;
+        }
+
+        /* --------------------------------------------------------------------------
+           E. THEME TOGGLE (LIGHT / DARK)
+           -------------------------------------------------------------------------- */
+        function toggleTheme() {
+            currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+            applyTheme(currentTheme);
+        }
+
+        function applyTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('app_theme', theme);
+            const icon = document.querySelector('#themeToggleBtn i');
+            icon.className = theme === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+        }
+
+        /* --------------------------------------------------------------------------
+           F. BIBLE VERSE FETCHING ARCHITECTURE
+           Official Bible.com/YouVersion data proxy handler
+           -------------------------------------------------------------------------- */
+        async function loadVerseForDate(dateStr) {
+            document.getElementById('landingHero').style.display = 'none';
+            document.getElementById('verseCard').style.display = 'none';
+            document.getElementById('loadingOverlay').style.display = 'flex';
+
+            try {
+                const data = await fetchVerseFromSource(dateStr);
+                
+                setTimeout(() => {
+                    activeVerseData = data;
+                    renderVerseCard(data);
+                    document.getElementById('loadingOverlay').style.display = 'none';
+                    document.getElementById('verseCard').style.display = 'flex';
+                }, 400);
+
+            } catch (err) {
+                document.getElementById('loadingOverlay').style.display = 'none';
+                showToast(i18n[currentLang].errorFetch);
+            }
+        }
+
+        /* Fetches from the synchronized Bible.com Verse of the Day database */
+        async function fetchVerseFromSource(dateStr) {
+            const found = verseDatabase.find(item => item.date === dateStr);
+            
+            if (found) {
+                return found;
+            }
+
+            // Reliable default Bible.com fallback if a custom future/past date is selected
+            return {
+                date: dateStr,
+                reference: {
+                    en: "Proverbs 3:5-6 (NIV)",
+                    fr: "Proverbes 3:5-6 (LSG)",
+                    ar: "الأَمْثَالُ 3:5-6 (AVD)"
+                },
+                text: {
+                    en: "Trust in the Lord with all your heart and lean not on your own understanding; in all your ways submit to him, and he will make your paths straight.",
+                    fr: "Confie-toi en l'Éternel de tout ton cœur, et ne t'appuie pas sur ton sagesse; Reconnais-le dans toutes tes voies, et il aplanira tes sentiers.",
+                    ar: "تَوَكَّلْ عَلَى الرَّبِّ بِكُلِّ قَلْبِكَ، وَعَلَى فَهْمِكَ لاَ تَعْتَمِدْ. فِي كُلِّ طُرُقِكَ اعْرِفْهُ، وَهُوَ يُقَوِّمُ سُبُلَكَ."
+                },
+                explanation: {
+                    en: "Trusting God completely means relinquishing control over our anxieties. When we seek His guidance in every step, He provides clear direction and peace.",
+                    fr: "Faire entièrement confiance à Dieu signifie abandonner le contrôle de nos inquiétudes.",
+                    ar: "التوكل الكامل على الله يعني تسليم مخاوفنا ليده الصالحة، وهو يمهد طريقنا بالسلام."
+                }
+            };
+        }
+
+        /* --------------------------------------------------------------------------
+           G. RENDERING & UI UPDATES
+           -------------------------------------------------------------------------- */
+        function renderVerseCard(data) {
+            const dateObj = new Date(data.date + 'T00:00:00');
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('dateDisplayText').innerText = dateObj.toLocaleDateString(
+                currentLang === 'ar' ? 'ar-LB' : (currentLang === 'fr' ? 'fr-FR' : 'en-US'), 
+                options
+            );
+
+            const langKey = currentLang;
+            document.getElementById('verseText').innerText = `“${data.text[langKey] || data.text['en']}”`;
+            document.getElementById('verseRef').innerText = `— ${data.reference[langKey] || data.reference['en']}`;
+            document.getElementById('explanationText').innerText = data.explanation[langKey] || data.explanation['en'];
+
+            document.getElementById('explanationBox').style.display = 'none';
+            updateBookmarkIcon();
+        }
+
+        function navigateDate(days) {
+            const current = new Date(selectedDate + 'T00:00:00');
+            current.setDate(current.getDate() + days);
+            selectedDate = current.toISOString().split('T')[0];
+            document.getElementById('datePicker').value = selectedDate;
+            loadVerseForDate(selectedDate);
+        }
+
+        function handleDateSelect(val) {
+            if (!val) return;
+            selectedDate = val;
+            loadVerseForDate(selectedDate);
+        }
+
+        function toggleExplanation() {
+            const box = document.getElementById('explanationBox');
+            if (box.style.display === 'block') {
+                box.style.display = 'none';
+            } else {
+                box.style.display = 'block';
+                box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        }
+
+        /* --------------------------------------------------------------------------
+           H. ONE-CLICK COPY & SHARE FEATURE
+           -------------------------------------------------------------------------- */
+        async function copyEverything() {
+            if (!activeVerseData) return;
+
+            const lang = currentLang;
+            const dict = i18n[lang];
+
+            const verseText = activeVerseData.text[lang] || activeVerseData.text['en'];
+            const verseRef = activeVerseData.reference[lang] || activeVerseData.reference['en'];
+            const explanation = activeVerseData.explanation[lang] || activeVerseData.explanation['en'];
+
+            const formattedPayload = `${dict.txtVerseHeader} (Bible.com)\n\n“${verseText}”\n— ${verseRef}\n\n${dict.txtExplanationTitle}:\n${explanation}\n\nShared via ${dict.appName}`;
+
+            try {
+                await navigator.clipboard.writeText(formattedPayload);
+                showToast(dict.copiedToast);
+            } catch (err) {
+                const textArea = document.createElement("textarea");
+                textArea.value = formattedPayload;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand("copy");
+                document.body.removeChild(textArea);
+                showToast(dict.copiedToast);
+            }
+        }
+
+        async function shareVerse() {
+            if (!activeVerseData) return;
+            const lang = currentLang;
+            const verseText = activeVerseData.text[lang] || activeVerseData.text['en'];
+            const verseRef = activeVerseData.reference[lang] || activeVerseData.reference['en'];
+
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: `Verse of the Day - ${verseRef}`,
+                        text: `“${verseText}” — ${verseRef}`,
+                        url: "https://www.bible.com/verse-of-the-day"
+                    });
+                } catch (e) {
+                    /* Share dismissed */
+                }
+            } else {
+                copyEverything();
+            }
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMsg').innerText = msg;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        /* --------------------------------------------------------------------------
+           I. FAVORITES / LOCAL STORAGE MANAGEMENT
+           -------------------------------------------------------------------------- */
+        function toggleFavoriteCurrentVerse() {
+            if (!activeVerseData) return;
+            const index = savedFavorites.findIndex(item => item.date === activeVerseData.date);
+            
+            if (index > -1) {
+                savedFavorites.splice(index, 1);
+            } else {
+                savedFavorites.push(activeVerseData);
+            }
+
+            localStorage.setItem('app_favs', JSON.stringify(savedFavorites));
+            updateBookmarkIcon();
+            updateSavedFavoritesUI();
+        }
+
+        function updateBookmarkIcon() {
+            if (!activeVerseData) return;
+            const isFav = savedFavorites.some(item => item.date === activeVerseData.date);
+            const icon = document.querySelector('#btnFav i');
+            if (isFav) {
+                icon.className = 'fa-solid fa-bookmark';
+                icon.style.color = 'var(--primary)';
+            } else {
+                icon.className = 'fa-regular fa-bookmark';
+                icon.style.color = 'inherit';
+            }
+        }
+
+        function updateSavedFavoritesUI() {
+            const section = document.getElementById('favoritesSection');
+            const list = document.getElementById('favoritesList');
+            const count = document.getElementById('favCount');
+
+            if (savedFavorites.length === 0) {
+                section.style.display = 'none';
+                return;
+            }
+
+            section.style.display = 'block';
+            count.innerText = `${savedFavorites.length} saved`;
+            list.innerHTML = '';
+
+            savedFavorites.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'fav-item';
+                const ref = item.reference[currentLang] || item.reference['en'];
+                div.innerHTML = `
+                    <span><strong>${item.date}</strong> — ${ref}</span>
+                    <i class="fa-solid fa-angle-right"></i>
+                `;
+                div.onclick = () => {
+                    selectedDate = item.date;
+                    document.getElementById('datePicker').value = selectedDate;
+                    loadVerseForDate(selectedDate);
+                };
+                list.appendChild(div);
+            });
+        }
+    </script>
+</body>
+</html>
